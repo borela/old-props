@@ -25,56 +25,58 @@ const PROPERTIES_A = { a: 1 }
 const PROPERTIES_B = { a: 1, b: 2 }
 const PROPERTIES_C = { a: 1, b: 2, c: 3 }
 
-describe('Decorator “oldProps” used on component without initial properties', () => {
-  it('has the same constructor', () => {
-    const WRAPPER = shallow(<SomeComponent/>)
-    const INSTANCE = WRAPPER.instance()
-    expect(Object.getPrototypeOf(INSTANCE).constructor)
-      .toBe(SomeComponent)
+describe('Decorator “oldProps” applied on “SomeComponent”', () => {
+  describe('Without initial properties', () => {
+    it('has the same constructor', () => {
+      const WRAPPER = shallow(<SomeComponent/>)
+      const INSTANCE = WRAPPER.instance()
+      expect(Object.getPrototypeOf(INSTANCE).constructor)
+        .toBe(SomeComponent)
+    })
+
+    it('saves the old properties on “oldProps” when they change', () => {
+      const WRAPPER = shallow(<SomeComponent/>)
+      const INSTANCE = WRAPPER.instance()
+
+      expect(INSTANCE.oldProps)
+        .toEqual(INSTANCE.props)
+
+      WRAPPER.setProps(PROPERTIES_A)
+      expect(INSTANCE.oldProps)
+        .toEqual({})
+
+      WRAPPER.setProps(PROPERTIES_B)
+      expect(INSTANCE.oldProps)
+        .toEqual(PROPERTIES_A)
+
+      WRAPPER.setProps(PROPERTIES_C)
+      expect(INSTANCE.oldProps)
+        .toEqual(PROPERTIES_B)
+    })
   })
 
-  it('saves the old properties on “oldProps” when they change', () => {
-    const WRAPPER = shallow(<SomeComponent/>)
-    const INSTANCE = WRAPPER.instance()
+  describe('With initial properties', () => {
+    it('has the same constructor', () => {
+      const WRAPPER = shallow(<SomeComponent {...PROPERTIES_A}/>)
+      const INSTANCE = WRAPPER.instance()
+      expect(Object.getPrototypeOf(INSTANCE).constructor)
+        .toBe(SomeComponent)
+    })
 
-    expect(INSTANCE.oldProps)
-      .toEqual(INSTANCE.props)
+    it('saves the old properties on “oldProps” when they change', () => {
+      const WRAPPER = shallow(<SomeComponent {...PROPERTIES_A}/>)
+      const INSTANCE = WRAPPER.instance()
 
-    WRAPPER.setProps(PROPERTIES_A)
-    expect(INSTANCE.oldProps)
-      .toEqual({})
+      expect(INSTANCE.oldProps)
+        .toEqual(INSTANCE.props)
 
-    WRAPPER.setProps(PROPERTIES_B)
-    expect(INSTANCE.oldProps)
-      .toEqual(PROPERTIES_A)
+      WRAPPER.setProps(PROPERTIES_B)
+      expect(INSTANCE.oldProps)
+        .toEqual(PROPERTIES_A)
 
-    WRAPPER.setProps(PROPERTIES_C)
-    expect(INSTANCE.oldProps)
-      .toEqual(PROPERTIES_B)
-  })
-})
-
-describe('Decorator “oldProps” used on component with initial properties', () => {
-  it('has the same constructor', () => {
-    const WRAPPER = shallow(<SomeComponent {...PROPERTIES_A}/>)
-    const INSTANCE = WRAPPER.instance()
-    expect(Object.getPrototypeOf(INSTANCE).constructor)
-      .toBe(SomeComponent)
-  })
-
-  it('saves the old properties on “oldProps” when they change', () => {
-    const WRAPPER = shallow(<SomeComponent {...PROPERTIES_A}/>)
-    const INSTANCE = WRAPPER.instance()
-
-    expect(INSTANCE.oldProps)
-      .toEqual(INSTANCE.props)
-
-    WRAPPER.setProps(PROPERTIES_B)
-    expect(INSTANCE.oldProps)
-      .toEqual(PROPERTIES_A)
-
-    WRAPPER.setProps(PROPERTIES_C)
-    expect(INSTANCE.oldProps)
-      .toEqual(PROPERTIES_B)
+      WRAPPER.setProps(PROPERTIES_C)
+      expect(INSTANCE.oldProps)
+        .toEqual(PROPERTIES_B)
+    })
   })
 })
