@@ -41,9 +41,10 @@ describe('Decorator “oldProps” applied on “SomeComponent”', () => {
       expect(INSTANCE.oldProps)
         .toEqual(INSTANCE.props)
 
+      const INITIAL_PROPS = INSTANCE.props
       WRAPPER.setProps(PROPERTIES_A)
       expect(INSTANCE.oldProps)
-        .toEqual({})
+        .toEqual(INITIAL_PROPS)
 
       WRAPPER.setProps(PROPERTIES_B)
       expect(INSTANCE.oldProps)
