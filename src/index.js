@@ -12,7 +12,7 @@
 
 import { Component } from 'react'
 
-export function oldProps(targetComponent:Component) {
+export function oldProps(targetComponent:Class<Component>) {
   let prototype = targetComponent.prototype
 
   Object.defineProperty(prototype, 'oldProps', {
