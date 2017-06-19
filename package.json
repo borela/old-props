@@ -1,6 +1,6 @@
 {
   "name": "old-props",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Decorator for ReactJS components that saves the old properties before it gets updated.",
   "license": "Apache-2.0",
   "main": "build",

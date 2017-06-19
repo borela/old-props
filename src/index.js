@@ -12,7 +12,7 @@
 
 import { Component } from 'react'
 
-export function decorate(targetComponent:Component) {
+export function oldProps(targetComponent:Component) {
   let prototype = targetComponent.prototype
 
   Object.defineProperty(prototype, 'oldProps', {
@@ -33,4 +33,4 @@ export function decorate(targetComponent:Component) {
   return targetComponent
 }
 
-export default decorate
+export default oldProps
