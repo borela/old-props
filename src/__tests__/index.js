@@ -14,12 +14,14 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import oldProps from '..'
 
-@oldProps
 class SomeComponent extends React.Component {
   render() {
     return <div>Ctrine!</div>
   }
 }
+
+// The decorator must modify the class instead of generating a new one.
+let DecoratedComponent = oldProps(SomeComponent)
 
 const PROPERTIES_A = { a: 1 }
 const PROPERTIES_B = { a: 1, b: 2 }
@@ -28,8 +30,10 @@ const PROPERTIES_C = { a: 1, b: 2, c: 3 }
 describe('Decorator “oldProps” applied on “SomeComponent”', () => {
   describe('Without initial properties', () => {
     it('has the same constructor', () => {
-      const WRAPPER = shallow(<SomeComponent/>)
+      const WRAPPER = shallow(<DecoratedComponent/>)
       const INSTANCE = WRAPPER.instance()
+      expect(INSTANCE instanceof SomeComponent)
+        .toBe(true)
       expect(Object.getPrototypeOf(INSTANCE).constructor)
         .toBe(SomeComponent)
     })
@@ -58,8 +62,10 @@ describe('Decorator “oldProps” applied on “SomeComponent”', () => {
 
   describe('With initial properties', () => {
     it('has the same constructor', () => {
-      const WRAPPER = shallow(<SomeComponent {...PROPERTIES_A}/>)
+      const WRAPPER = shallow(<DecoratedComponent {...PROPERTIES_A}/>)
       const INSTANCE = WRAPPER.instance()
+      expect(INSTANCE instanceof SomeComponent)
+        .toBe(true)
       expect(Object.getPrototypeOf(INSTANCE).constructor)
         .toBe(SomeComponent)
     })
