@@ -10,9 +10,9 @@
 // License for the specific language governing permissions and limitations under
 // the License.
 
+import oldProps from '..'
 import React from 'react'
 import { shallow } from 'enzyme'
-import oldProps from '..'
 
 class SomeComponent extends React.Component {
   render() {
